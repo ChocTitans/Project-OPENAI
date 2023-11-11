@@ -26,10 +26,12 @@ $current_message = getMessage();
 <h1>Message System</h1>
 
 <p><?php echo $current_message; ?></p> 
+<label for="user_message">Your message:</label>
 
-<form method="post">
-  <input type="text" name="message">
-  <button type="submit">Save Message</button>
+<form method="post" action="">
+    <textarea id="user_message" name="user_message" rows="4" cols="50" required></textarea>
+    <br>
+    <button type="submit">Send</button>
 </form>
 
 </body>
