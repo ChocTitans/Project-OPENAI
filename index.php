@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+    exit();
+}
+
+echo '<a href="logout.php"><button>Logout</button></a>';
+
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+    echo "Welcome Admin!";
+    echo '<a href="admin.php"><button>Go to Admin</button></a>';
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +24,13 @@
 <body>
 
 <?php
+echo '<a href="index.php"><button>Go to index</button></a>';
 // Function to send a message to ChatGPT API
 function sendMessageToChatGPT($user_input) {
+    // Retrieve the system message from the database
+    $conn = include 'config.php'; // Assuming config.php includes the database connection
+    $system_message = getSystemMessageFromDatabase($conn);
+
     $api_key = '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'; // Replace with your OpenAI API key
     $api_url = 'https://api.openai.com/v1/chat/completions';
 
@@ -18,7 +39,7 @@ function sendMessageToChatGPT($user_input) {
         "messages" => array(
             array(
                 "role" => "system",
-                "content" => "You are a helpful assistant."
+                "content" => $system_message // Use the retrieved system message
             ),
             array(
                 "role" => "user",
@@ -57,24 +78,28 @@ function sendMessageToChatGPT($user_input) {
     echo '<p><strong>ChatGPT:</strong> ' . $chat_data['choices'][0]['message']['content'] . '</p>';
 
     // Save the conversation to the database
-    saveToDatabase($user_input, $chat_data['choices'][0]['message']['content']);
+    saveToDatabase($user_input, $chat_data['choices'][0]['message']['content'], $conn); // Pass $conn as the third argument
+}
+
+// Function to get the system message from the database
+function getSystemMessageFromDatabase($conn) {
+    // Query to retrieve the system message from the database
+    $sql = "SELECT message FROM system_messages WHERE id=1";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Fetch the system message
+        $system_message = $result->fetch_assoc()["message"];
+    } else {
+        // Provide a default system message if none is found
+        $system_message = "Default system message";
+    }
+
+    return $system_message;
 }
 
 // Function to save the conversation to the database
-function saveToDatabase($user_input, $chat_response) {
-    $servername = "localhost"; // Replace with your MySQL server name
-    $username = "root";       // Replace with your MySQL username
-    $password = "";       // Replace with your MySQL password
-    $dbname = "chatgpt";    // Replace with your MySQL database name
-
-    // Create a connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+function saveToDatabase($user_input, $chat_response, $conn) {
     // Use prepared statement to prevent SQL injection
     $sql = "INSERT INTO conversations (user_input, chat_response) VALUES (?, ?)";
     $stmt = $conn->prepare($sql);
@@ -86,9 +111,8 @@ function saveToDatabase($user_input, $chat_response) {
         echo "Error: " . $stmt->error;
     }
 
-    // Close the statement and connection
+    // Close the statement
     $stmt->close();
-    $conn->close();
 }
 
 // Handle form submission
