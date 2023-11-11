@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+include './include/config.php';
 
 // Handle login
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
