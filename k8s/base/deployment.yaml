@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/service: php
+  name: php
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/service: php
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/service: php
+    spec:
+      containers:
+        - image: eltitans/codingame:latest
+          name: codingame
+          ports:
+            - containerPort: 80
