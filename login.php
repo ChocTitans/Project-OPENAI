@@ -1,5 +1,6 @@
 <?php
 include './include/config.php';
+session_save_path('/var/www/html/session_data');
 
 // Handle login
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
