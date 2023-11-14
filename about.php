@@ -13,7 +13,7 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/s4.png" type="image/x-icon">
 
-  <title>Thrine</title>
+  <title>AI-MED</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -43,7 +43,7 @@
       <div class="heading_container heading_center">
         <h2>
           <span class="design_dot"></span>
-          About Our Hospital
+          About Our AI
         </h2>
       </div>
       <div class="col-md-7 mx-auto px-0">

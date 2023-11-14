@@ -26,12 +26,28 @@ if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
 
 <?php
 echo '<a href="index.php"><button>Go to index</button></a>';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_input = $_POST["user_message"];
+    sendMessageToChatGPT($user_input);
+}
+?>
+
+<form method="post" action="">
+    <label for="user_message">Your message:</label>
+    <input type="text" id="user_message" name="user_message" required>
+    <button type="submit">Send</button>
+</form>
+
+<?php
 function sendMessageToChatGPT($user_input) {
     $conn = include './include/config.php'; 
     $system_message = getSystemMessageFromDatabase($conn);
 
     $api_key = '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';
     $api_url = 'https://api.openai.com/v1/chat/completions';
+
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
     $post_fields = array(
         "model" => "gpt-3.5-turbo",
@@ -74,7 +90,7 @@ function sendMessageToChatGPT($user_input) {
     echo '<p><strong>You:</strong> ' . $user_input . '</p>';
     echo '<p><strong>ChatGPT:</strong> ' . $chat_data['choices'][0]['message']['content'] . '</p>';
 
-    saveToDatabase($user_input, $chat_data['choices'][0]['message']['content'], $conn); // Pass $conn as the third argument
+    saveToDatabase($user_input, $chat_data['choices'][0]['message']['content'], $user_id, $conn);
 }
 
 function getSystemMessageFromDatabase($conn) {
@@ -90,30 +106,22 @@ function getSystemMessageFromDatabase($conn) {
     return $system_message;
 }
 
-function saveToDatabase($user_input, $chat_response, $conn) {
-    $sql = "INSERT INTO conversations (user_input, chat_response) VALUES (?, ?)";
+function saveToDatabase($user_input, $chat_response, $user_id, $conn) {
+    $sql = "INSERT INTO conversations (user_input, chat_response, user_id) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $user_input, $chat_response);
+
+    // Bind parameters with proper types
+    $stmt->bind_param("sss", $user_input, $chat_response, $user_id);
 
     if ($stmt->execute()) {
+        // Successful insertion
     } else {
         echo "Error: " . $stmt->error;
     }
 
     $stmt->close();
 }
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_input = $_POST["user_message"];
-    sendMessageToChatGPT($user_input);
-}
 ?>
-
-<form method="post" action="">
-    <label for="user_message">Your message:</label>
-    <input type="text" id="user_message" name="user_message" required>
-    <button type="submit">Send</button>
-</form>
 
 </body>
 </html>

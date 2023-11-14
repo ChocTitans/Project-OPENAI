@@ -1,7 +1,7 @@
 <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="index.php">
             <h3>
               AI-MED
             </h3>
@@ -16,20 +16,14 @@
                 <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.php"> About </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="login.php"> Login </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="register.php"> Register </a>
+                <a class="nav-link" href="about.php"> About</a>
               </li>
             </ul>
-            <form class="form-inline ">
+            <form class="form-inline" action="login.php" method="post">
               <button class="btn nav_search-btn" type="submit">
-                <i class="fa fa-search" aria-hidden="true"></i>
+                  <i class="fa fa-user" aria-hidden="true"></i>
               </button>
-            </form>
+          </form>
           </div>
         </nav>
       </div>
