@@ -4,7 +4,7 @@ include './include/config.php';
 session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("Location: ./profile/");
+    header("Location: ./setup.php");
     exit;
 }
 
@@ -12,25 +12,27 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $lastName = $_POST['last_name'];
 
     // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT id, password, role FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, password, role, last_name FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
 // After successful login
 if ($stmt->num_rows > 0) {
-    $stmt->bind_result($id, $hashedPassword, $role);
+    $stmt->bind_result($id, $hashedPassword, $role, $lastName);
     $stmt->fetch();
 
     // Verify the password
     if (password_verify($password, $hashedPassword)) {
         $_SESSION['loggedin'] = true;
+        $_SESSION['last_name'] = $lastName;
         $_SESSION['user_id'] = $id; // Store user ID in the session
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
-        header("Location: ./profile");
+        header("Location: setup.php");
     } 
     }
 

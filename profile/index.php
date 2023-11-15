@@ -52,6 +52,9 @@ $speech_enabled = isset( $settings['speech_enabled'] ) && $settings['speech_enab
     <title>AI-MED</title>
     <link rel="shortcut icon" href="../images/s4.png" type="image/x-icon">
 
+    <!-- the other one -->
+
+
     <script>
         let base_uri = '<?php echo $base_uri; ?>';
         let chat_id = <?php echo intval( $chat_id ); ?>;

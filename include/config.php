@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "testgpt";
+$dbname = "gpt";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
