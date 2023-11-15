@@ -4,7 +4,7 @@ include './include/config.php';
 session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("Location: chat.php");
+    header("Location: ./profile/");
     exit;
 }
 
@@ -27,8 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
         if (password_verify($password, $hashedPassword)) {
             $_SESSION['loggedin'] = true;
             $_SESSION['user_id'] = $id; // Store user ID in the session
+            $_SESSION['email'] = $email;
             $_SESSION['role'] = $role;
-            header("Location: chat.php");
+            header("Location: ./profile/");
         } else {
             echo "Invalid Email or password!";
         }
