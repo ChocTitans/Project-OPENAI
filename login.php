@@ -19,23 +19,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $stmt->execute();
     $stmt->store_result();
 
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $hashedPassword, $role);
-        $stmt->fetch();
+// After successful login
+if ($stmt->num_rows > 0) {
+    $stmt->bind_result($id, $hashedPassword, $role);
+    $stmt->fetch();
 
-        // Verify the password
-        if (password_verify($password, $hashedPassword)) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user_id'] = $id; // Store user ID in the session
-            $_SESSION['email'] = $email;
-            $_SESSION['role'] = $role;
-            header("Location: ./profile/");
-        } else {
-            echo "Invalid Email or password!";
-        }
+    // Verify the password
+    if (password_verify($password, $hashedPassword)) {
+        $_SESSION['loggedin'] = true;
+        $_SESSION['user_id'] = $id; // Store user ID in the session
+        $_SESSION['email'] = $email;
+        $_SESSION['role'] = $role;
+        header("Location: ./profile");
     } else {
         echo "Invalid Email or password!";
     }
+    } else {
+        echo "Invalid Email or password!";
+    }
+
 
     $stmt->close();
 }
@@ -91,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/s4.png" type="image/x-icon">
 
-  <title>Thrine</title>
+  <title>AI-MED</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -172,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                     <div class="form-row">
                         <div class="form-group col-lg-4">
                             <label for="inputPhone">Téléphone</label>
-                            <input type="tel" class="form-control" id="inputPhone" name="phone" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}" placeholder="0X-XXXX-XXXX">
+                            <input type="tel" class="form-control" id="inputPhone" name="phone">
                         </div>
                         <div class="form-group col-lg-4">
                             <label for="inputPassword">Mot de passe</label>
