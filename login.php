@@ -31,12 +31,9 @@ if ($stmt->num_rows > 0) {
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
         header("Location: ./profile");
-    } else {
-        echo "Invalid Email or password!";
+    } 
     }
-    } else {
-        echo "Invalid Email or password!";
-    }
+
 
 
     $stmt->close();
