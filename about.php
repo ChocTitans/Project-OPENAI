@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -33,8 +35,48 @@
 <body class="sub_page">
   <div class="hero_area">
     <!-- header section strats -->
-    <?php include 'header.php'; ?>
-    <!-- end header section -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.php">
+            <h3>
+              AI-MED
+            </h3>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
+            <ul class="navbar-nav  ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="about.php"> A propos</a>
+              </li>
+            <?php if (isset($_SESSION['loggedin'])) { ?>
+              <li class="nav-item">
+                <a class="nav-link" href="setup.php">Bienvenue, <?php echo htmlspecialchars($_SESSION['last_name'] ); ?></a>
+              </li>
+            </ul>
+            <form class="form-inline" action="logout.php" method="post">
+              <button class="btn nav_search-btn" type="submit">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>
+              </button>
+            </form>
+            <?php  } else{ ?>
+            <form class="form-inline" action="login.php" method="post">
+              <button class="btn nav_search-btn" type="submit">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+              </button>
+            </form>
+
+              <?php }?>
+          </div>
+        </nav>
+      </div>
+    </header>    <!-- end header section -->
   </div>
 
   <!-- about section -->

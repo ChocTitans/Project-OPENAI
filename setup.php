@@ -67,17 +67,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </button>
 
           <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
-          <ul class="navbar-nav  ml-auto">
-              <li class="nav-item ">
-                <a class="nav-link" href="index.php">Home </a>
+            <ul class="navbar-nav  ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item ">
-                <a class="nav-link" href="about.php"> About</a>
+              <li class="nav-item">
+                <a class="nav-link" href="about.php"> A propos</a>
               </li>
+            <?php if (isset($_SESSION['loggedin'])) { ?>
               <li class="nav-item active">
-                <a class="nav-link" href="">Bienvenue, <?php echo htmlspecialchars($_SESSION['last_name'] ); ?><span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="setup.php">Bienvenue, <?php echo htmlspecialchars($_SESSION['last_name'] ); ?></a>
               </li>
             </ul>
+            <form class="form-inline" action="logout.php" method="post">
+              <button class="btn nav_search-btn" type="submit">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>
+              </button>
+            </form>
+            <?php  } else{ ?>
+            <form class="form-inline" action="login.php" method="post">
+              <button class="btn nav_search-btn" type="submit">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+              </button>
+            </form>
+
+              <?php }?>
           </div>
         </nav>
       </div>
