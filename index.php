@@ -55,16 +55,25 @@
               <li class="nav-item">
                 <a class="nav-link" href="about.php"> A propos</a>
               </li>
-            <?php if (isset($_SESSION['loggedin'])) { ?>
+              <?php if (isset($_SESSION['loggedin'])) { ?>
               <li class="nav-item">
                 <a class="nav-link" href="setup.php">Bienvenue, <?php echo htmlspecialchars($_SESSION['last_name'] ); ?></a>
               </li>
             </ul>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {?>
+              <form class="form-inline" action="admin.php" method="post">
+              <button class="btn nav_search-btn" type="submit">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+              </button>
+            </form>
+            <?php } ?>
+            
             <form class="form-inline" action="logout.php" method="post">
               <button class="btn nav_search-btn" type="submit">
                   <i class="fa fa-sign-out" aria-hidden="true"></i>
               </button>
             </form>
+            
             <?php  } else{ ?>
             <form class="form-inline" action="login.php" method="post">
               <button class="btn nav_search-btn" type="submit">

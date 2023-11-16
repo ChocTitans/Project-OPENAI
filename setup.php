@@ -7,15 +7,11 @@ if (!isset($_SESSION['loggedin'])) {
 }
 
 
-if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
-    echo "Welcome Admin!";
-    echo '<a href="logout.php"><button>Logout</button></a>';
-    echo '<a href="./admin/admin.php"><button>Go to Admin</button></a>';
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_input = $_POST["user_message"];
-    sendMessageToChatGPT($user_input);
+  $user_input = $_POST["user_message"];
+  echo sendMessageToChatGPT($user_input); // Echo the JSON response
+  exit(); // Terminate further execution
 }
 ?>
 
@@ -79,11 +75,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a class="nav-link" href="setup.php">Bienvenue, <?php echo htmlspecialchars($_SESSION['last_name'] ); ?></a>
               </li>
             </ul>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {?>
+              <form class="form-inline" action="./admin" method="post">
+              <button class="btn nav_search-btn" type="submit">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+              </button>
+            </form>
+            <?php } ?>
+            
             <form class="form-inline" action="logout.php" method="post">
               <button class="btn nav_search-btn" type="submit">
                   <i class="fa fa-sign-out" aria-hidden="true"></i>
               </button>
             </form>
+            
             <?php  } else{ ?>
             <form class="form-inline" action="login.php" method="post">
               <button class="btn nav_search-btn" type="submit">
@@ -100,39 +105,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <!-- book section -->
-
-<section class="book_section layout_padding" id="loginSection">
+  <section class="book_section layout_padding" id="loginSection">
     <div class="container">
         <div class="row">
             <div class="col">
-            <form method="post" action="">
-                <label for="user_message">Your message:</label>
-                <input type="text" id="user_message" name="user_message" required>
-                <button type="submit">Send</button>
-            </form>
-
+                <div class="conversation-container p-4 bg-white" id="conversation-container">
+                </div>
+                <form id="chat-form" method="post" action="">
+                    <div class="input-group">
+                        <input type="text" id="user_message" name="user_message" class="form-control" placeholder="Type your message..." required>  
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" type="submit">Send</button>
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </section>
 
+
+
   <!-- end book section -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Switch to the login section when clicking the "Login" button
-        $("#loginBtn").click(function () {
-            $("#registerSection").hide();
-            $("#loginSection").show();
-        });
-
-        // Switch to the register section when clicking the "Register" button
-        $("#registerBtn").click(function () {
-            $("#registerSection").show();
-            $("#loginSection").hide();
-        });
-    });
-</script>
 
 
 <?php
@@ -150,15 +145,15 @@ function sendMessageToChatGPT($user_input) {
         "messages" => array(
             array(
                 "role" => "system",
-                "content" => $system_message 
+                "content" => "Bonjour, je suis AI-MED, votre assistant médical. Je suis là pour vous aider à trouver des informations sur les maladies." 
             ),
             array(
                 "role" => "user",
                 "content" => $user_input
             )
         ),
-        "max_tokens" => 100,
-        "temperature" => 0.7 
+        "max_tokens" => 900,
+        "temperature" => 0.7
     );
 
     $ch = curl_init();
@@ -183,11 +178,16 @@ function sendMessageToChatGPT($user_input) {
 
     $chat_data = json_decode($response, true);
 
-    echo '<p><strong>You:</strong> ' . $user_input . '</p>';
-    echo '<p><strong>ChatGPT:</strong> ' . $chat_data['choices'][0]['message']['content'] . '</p>';
+    $response = array(
+      'userMessage' => $user_input,
+      'gpt3Message' => $chat_data['choices'][0]['message']['content']
+  );
 
     saveToDatabase($user_input, $chat_data['choices'][0]['message']['content'], $user_id, $conn);
+    return json_encode($response);
+
 }
+
 
 function getSystemMessageFromDatabase($conn) {
     $sql = "SELECT message FROM system_messages WHERE id=1";
@@ -218,6 +218,38 @@ function saveToDatabase($user_input, $chat_response, $user_id, $conn) {
     $stmt->close();
 }
 ?>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#chat-form').on('submit', function(event) {
+          event.preventDefault();
+
+          var user_input = $("#user_message").val();
+          addMessage("You", user_input, true);
+
+          $.ajax({
+              type: 'POST',
+              data: { user_message: user_input }
+          })
+          .done(function(response) {
+              var parsedResponse = JSON.parse(response);
+              addMessage("AI-MED", parsedResponse.gpt3Message, false);
+          })
+          .fail(function(xhr, status, error) {
+              console.error(error); // Log any errors to the console
+          });
+
+          $("#user_message").val('');  
+      });
+  });
+
+  function addMessage(name, message, isUser) {
+    var alignClass = isUser ? 'text-left' : 'text-left';
+    var messageHTML = '<div class="' + alignClass + '"><strong>' + name + ':</strong> ' + message + '</div>' + '<br>';
+    $(messageHTML).hide().appendTo('#conversation-container').fadeIn(1000);
+}
+
+</script>
+
 
 
   <!-- info section -->

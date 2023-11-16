@@ -466,7 +466,12 @@ a:focus {
   background-color: transparent;
   color: #56bca4;
 }
+.conversation-container {
+  max-height: 5px; /* Set the maximum height to trigger scroll */
+  overflow-y: auto; /* Enable vertical scrollbar if needed */
+  border: 1px solid #ccc; /* Optional: Add a border for clarity */
 
+}
 .book_section {
   background-image: -webkit-gradient(linear, left top, right top, from(rgba(86, 188, 164, 0.55)), to(rgba(86, 188, 164, 0.55))), url(../images/book-bg.jpg);
   background-image: linear-gradient(to right, rgba(86, 188, 164, 0.55), rgba(86, 188, 164, 0.55)), url(../images/book-bg.jpg);
