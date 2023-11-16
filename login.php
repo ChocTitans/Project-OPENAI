@@ -1,6 +1,6 @@
 <?php
 include './include/config.php';
-
+session_save_path('/var/www/html/session_data');
 session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                     <?php
                     // Display success message if registration succeeded
                     if ($registrationSuccess) {
-                        echo '<p class="success-message">Registration successful!</p>';
+                        echo '<p class="success-message">Succces ! Vous êtes maintenant enregistré !</p>';
                     }
                     ?>
                 </form>
