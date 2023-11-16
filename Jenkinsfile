@@ -17,22 +17,14 @@ podTemplate(containers: [
             {
                 script
                 {
-
-                    //sh 'dockerd-entrypoint.sh &'
-                    //sh 'until docker info; do sleep 1; done'
-
-                    sh 'apk update && apk add aws-cli'
-
-                    sh 'apk add kustomize'
-                    sh 'wget -O kubectl https://dl.k8s.io/release/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl'
-                    sh 'chmod +x kubectl'
-                    sh 'mv kubectl /usr/local/bin/'
+                    sh 'dockerd-entrypoint.sh &'
+                    sh 'until docker info; do sleep 1; done'
                 }
             }
         }
         stage ('Clone')
         {
-            git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/OPENAI.git'
+            git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/Project-OPENAI'
         }
 
         stage('Docker build & push')
