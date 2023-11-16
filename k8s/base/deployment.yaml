@@ -17,7 +17,7 @@ spec:
         app.kubernetes.io/service: php
     spec:
       containers:
-        - image: eltitans/codingame:latest
-          name: codingame
+        - image: eltitans/openai:latest
+          name: openai
           ports:
             - containerPort: 80

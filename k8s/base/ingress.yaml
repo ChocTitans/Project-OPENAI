@@ -2,19 +2,19 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: devops-tools
-  name: meilisearch-ingress
+  name: ai-ingress
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: ttv-eks
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:230410870031:certificate/2ca8828a-704a-43ec-ae2a-28a0c11dc03c
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:230410870031:certificate/1872ad59-1a79-4b88-b381-f353dcd5bad3
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 
 spec:
   ingressClassName: alb
   rules:
-    - host: "ctf.gdscemsi.com"
+    - host: "ai.hamzaboubnane.tech"
       http:
         paths:
         - path: /
