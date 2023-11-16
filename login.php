@@ -127,12 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
           <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
           <ul class="navbar-nav  ml-auto">
               <li class="nav-item ">
-                <a class="nav-link" href="index.php">Home </a>
+                <a class="nav-link" href="index.php">Accueil </a>
               </li>
               <li class="nav-item ">
-                <a class="nav-link" href="about.php"> About</a>
+                <a class="nav-link" href="about.php">A propos</a>
               </li>
             </ul>
+            
             <form class="form-inline nav-item active" action="login.php" method="post">
                 <button class="btn nav_search-btn" type="submit">
                     <i class="fa fa-user" aria-hidden="true"></i>
@@ -154,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                 <form method="post">
                     <h4>
                         <span class="design_dot"></span>
-                        REGISTER
+                        S'enregister
                     </h4>
                     <div class="form-row">
                         <div class="form-group col-lg-4">
@@ -166,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                             <input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="">
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="inputLastName">Prenom</label>
+                            <label for="inputLastName">Prénom</label>
                             <input type="text" class="form-control" id="inputLastName" name="last_name" placeholder="">
                         </div>
                     </div>
@@ -181,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                         </div>
                         <div class="form-group col-lg-4">
                             <label for="inputDate">Date De Naissance</label>
-                            <div class="input-group date" id="inputDate" data-date-format="mm-dd-yyyy">
+                            <div class="input-group date" id="inputDate" data-date-format="yyyy-mm-dd">
                                 <input type="text" class="form-control" readonly name="date_of_birth">
                                 <span class="input-group-addon date_icon">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -200,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                     }
                     ?>
                 </form>
-                <button type="button" class="btn" id="loginBtn" style="color: white;">You have an account? Login</button>
+                <button type="button" class="btn" id="loginBtn" style="color: white;">Tu as un compte ? Connecte-toi</button>
 
             </div>
         </div>
@@ -214,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                 <form method="post">
                     <h4>
                         <span class="design_dot"></span>
-                        LOGIN
+                        Se connecter
                     </h4>
                     <div class="form-row">
                         <div class="form-group col-lg-4">
@@ -227,10 +228,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                         </div>
                     </div>
                     <div class="btn-box">
-                        <button type="submit" name="login" class="btn">Login</button>
+                        <button type="submit" name="login" class="btn">Envoyer</button>
                     </div>
                 </form>
-                <button type="button" class="btn" id="registerBtn" style="color: white;">You don't have an account ? Register</button>
+                <button type="button" class="btn" id="registerBtn" style="color: white;">Tu n'as pas de compte ? Enregistre toi</button>
 
             </div>
         </div>
