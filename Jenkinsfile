@@ -32,7 +32,7 @@ podTemplate(containers: [
         }
         stage ('Clone')
         {
-            git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
+            git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/OPENAI.git'
         }
 
         stage('Docker build & push')
