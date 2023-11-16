@@ -61,7 +61,7 @@
               </li>
             </ul>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {?>
-              <form class="form-inline" action="admin.php" method="post">
+              <form class="form-inline" action="./admin" method="post">
               <button class="btn nav_search-btn" type="submit">
                   <i class="fa fa-cogs" aria-hidden="true"></i>
               </button>
@@ -97,12 +97,12 @@
                   <div class="detail-box">
                     <div>
                       <h1>
-                        AI health care
+                        IA - Révolution dans la Médecine
                       </h1>
                       <p>
-                      Unlock the future of healthcare with AI. Our innovative solutions harness the power of artificial intelligence to elevate diagnostics, tailor treatments, and simplify administrative tasks, ensuring a smarter and more efficient healthcare experience                      </p>
+                      Déverrouillez l'avenir des soins de santé avec l'IA. Nos solutions innovantes exploitent la puissance de l'intelligence artificielle pour améliorer les diagnostics, personnaliser les traitements et simplifier les tâches administratives.</p>
                       <a href="login.php">
-                        TRY IT
+                        ESSAYE !
                       </a>
                     </div>
                   </div>
@@ -122,12 +122,11 @@
                   <div class="detail-box">
                     <div>
                       <h1>
-                        AI Diagnostic
+                        Diagnostic par l'IA
                       </h1>
                       <p>
-                      Elevate diagnostics with AI precision. Our cutting-edge technology, driven by machine learning, enhances accuracy in interpreting medical images and data. Experience quicker, more reliable results, bringing a new era of confidence to healthcare diagnostics                      </p>
-                      <a href="login.php">
-                        TRY IT
+                      Élevez les diagnostics avec la précision de l'IA. Notre technologie de pointe, alimentée par l'apprentissage automatique, améliore la précision dans l'interprétation des images médicales et des données. Profitez de résultats plus rapides et plus fiables, apportant une nouvelle ère de confiance aux diagnostics de santé  </p>                    <a href="login.php">
+                      ESSAYE !
                       </a>
                     </div>
                   </div>
@@ -147,12 +146,11 @@
                   <div class="detail-box">
                     <div>
                       <h1>
-                        AI Healthcare Management
+                        IA - Gestion De Soin
                       </h1>
                       <p>
-                      Simplify healthcare management with AI. From personalized treatment plans to automated administrative tasks, our solutions optimize efficiency. Embrace a seamlessly integrated approach to healthcare, where technology empowers professionals and improves patient care                      </p>
-                      <a href="login.php">
-                        TRY IT
+                      Simplifiez la gestion des soins de santé avec l'IA. De la personnalisation des plans de traitement aux tâches administratives automatisées, nos solutions optimisent l'efficacité. Adoptez une approche intégrée et fluide des soins de santé, où la technologie donne du pouvoir aux professionnels et améliore les soins aux patients    </p>                  <a href="login.php">
+                      ESSAYE !
                       </a>
                     </div>
                   </div>
@@ -395,7 +393,7 @@
               </div>
               <div class="detail-box">
                 <h4>
-                  ADVANCED TECHNOLOGY
+                TECHNOLOGIE AVANCÉE
                 </h4>
               </div>
             </div>
@@ -415,7 +413,7 @@
               </div>
               <div class="detail-box">
                 <h4>
-                  24/7 AVAILABILITY
+                  24/7 DISPONIBLE
                 </h4>
               </div>
             </div>
@@ -435,7 +433,7 @@
               </div>
               <div class="detail-box">
                 <h4>
-                  Best AI Doctor
+                Meilleur médecin en IA
                 </h4>
               </div>
             </div>
@@ -459,7 +457,7 @@
       <div class="heading_container heading_center">
         <h2>
           <span class="design_dot"></span>
-          Our Services
+          Nos services
         </h2>
         <p>
           It is a long established fact that a reader will be distracted
@@ -473,7 +471,7 @@
           <div class="box">
             <img src="images/s1.png" alt="" />
             <a href="#">
-              Diagnosis
+            Diagnostic
             </a>
           </div>
         </div>
@@ -481,7 +479,7 @@
           <div class="box">
             <img src="images/s2.png" alt="" />
             <a href="#">
-              Therapy
+            Thérapie
             </a>
           </div>
         </div>

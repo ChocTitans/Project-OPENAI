@@ -8,10 +8,10 @@
             </h5>
             <ul class="navbar-nav  ">
               <li class="nav-item ">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html"> About </a>
+                <a class="nav-link" href="about.php"> A propos </a>
               </li>
             </ul>
           </div>
@@ -22,9 +22,8 @@
               AI-MED
             </h5>
             <p>
-              There are many variations of passages of Lorem Ipsum available,
-              but the majority have suffered alteration in some form, by
-              injected humou
+            L'intégration de l'intelligence artificielle dans les soins de santé révolutionne les diagnostics, 
+            les traitements et la gestion, améliorant ainsi l'efficacité et l'expérience des patients.
             </p>
           </div>
         </div>
@@ -32,25 +31,20 @@
         <div class="col-md-5 offset-md-1">
           <div class="info_news">
             <h5>
-              FOR ANY QUERY, PLEASE WRITE TO US
+            POUR TOUTE QUESTION, ÉCRIVEZ-NOUS S'IL VOUS PLAÎT
             </h5>
             <div class="info_contact">
               <a href="">
-                <i class="fa fa-map-marker" aria-hidden="true"></i> Location
+                <i class="fa fa-map-marker" aria-hidden="true"></i> Maroc
               </a>
               <a href="">
-                <i class="fa fa-envelope" aria-hidden="true"></i> demo@gmail.com
+                <i class="fa fa-envelope" aria-hidden="true"></i> AI@aimed.com
               </a>
               <a href="">
                 <i class="fa fa-phone" aria-hidden="true"></i> Call : +212 1234567890
               </a>
             </div>
-            <form action="">
-              <input type="text" placeholder="Enter Your email" />
-              <button>
-                Subscribe
-              </button>
-            </form>
+
           </div>
         </div>
       </div>
@@ -62,7 +56,7 @@
     <div class="container">
       <p>
         &copy; <span id="displayYear"></span> All Rights Reserved By
-        <a href="https://html.design/">Free Html Templates</a>
+        <a href="#">HB & LM & IB</a>
       </p>
     </div>
   </footer>
