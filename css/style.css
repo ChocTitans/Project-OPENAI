@@ -467,7 +467,7 @@ a:focus {
   color: #56bca4;
 }
 .conversation-container {
-  max-height: 5px; /* Set the maximum height to trigger scroll */
+  max-height: 500px; /* Set the maximum height to trigger scroll */
   overflow-y: auto; /* Enable vertical scrollbar if needed */
   border: 1px solid #ccc; /* Optional: Add a border for clarity */
 

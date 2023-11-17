@@ -235,7 +235,7 @@ function saveToDatabase($user_input, $chat_response, $user_id, $conn) {
               addMessage("AI-MED", parsedResponse.gpt3Message, false);
           })
           .fail(function(xhr, status, error) {
-              console.error(error); // Log any errors to the console
+            console.error("La réponse n'est pas au format JSON :", response);
           });
 
           $("#user_message").val('');  
@@ -244,7 +244,7 @@ function saveToDatabase($user_input, $chat_response, $user_id, $conn) {
 
   function addMessage(name, message, isUser) {
     var alignClass = isUser ? 'text-left' : 'text-left';
-    var messageHTML = '<div class="' + alignClass + '"><strong>' + name + ':</strong> ' + message + '</div>' + '<br>';
+    var messageHTML = '<div class="' + alignClass + '"><strong>' + name + ':</strong> ' + message + '</div>' + '</br>';
     $(messageHTML).hide().appendTo('#conversation-container').fadeIn(1000);
 }
 

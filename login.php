@@ -1,7 +1,8 @@
 <?php
-include './include/config.php';
 session_save_path('/var/www/html/session_data');
 session_start();
+
+include './include/config.php';
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: ./setup.php");
