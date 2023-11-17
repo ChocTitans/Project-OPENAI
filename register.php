@@ -148,16 +148,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
 
   <!-- book section -->
 
-
-
-<section class="book_section layout_padding" id="loginSection">
+  <section class="book_section layout_padding" id="registerSection">
     <div class="container">
         <div class="row">
             <div class="col">
                 <form method="post">
                     <h4>
                         <span class="design_dot"></span>
-                        Se connecter
+                        S'enregister
                     </h4>
                     <div class="form-row">
                         <div class="form-group col-lg-4">
@@ -165,22 +163,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                             <input type="email" class="form-control" id="inputEmail" name="email" placeholder="">
                         </div>
                         <div class="form-group col-lg-4">
+                            <label for="inputFirstName">Nom</label>
+                            <input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="">
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="inputLastName">Prénom</label>
+                            <input type="text" class="form-control" id="inputLastName" name="last_name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-lg-4">
+                            <label for="inputPhone">Téléphone</label>
+                            <input type="tel" class="form-control" id="inputPhone" name="phone">
+                        </div>
+                        <div class="form-group col-lg-4">
                             <label for="inputPassword">Mot de passe</label>
                             <input type="password" class="form-control" id="inputPassword" name="password" placeholder="">
                         </div>
+                        <div class="form-group col-lg-4">
+                            <label for="inputDate">Date De Naissance</label>
+                            <div class="input-group date" id="inputDate" data-date-format="yyyy-mm-dd">
+                                <input type="text" class="form-control" readonly name="date_of_birth">
+                                <span class="input-group-addon date_icon">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="btn-box">
-                        <button type="submit" name="login" class="btn">Envoyer</button>
+                        <button type="submit" name="register" class="btn">S'enregistrer</button>
                     </div>
+                    
+                    <?php
+                    // Display success message if registration succeeded
+                    if ($registrationSuccess) {
+                        echo '<p class="success-message">Succces ! Vous êtes maintenant enregistré !</p>';
+                    }
+                    ?>
                 </form>
-                <a href="register.php">
-                    <button type="button" class="btn" style="color: white;">Tu n'as pas de compte ? Enregistre toi</button>
+                <a href="login.php">
+                    <button type="button" class="btn" style="color: white;">Tu as un compte ? Connecte-toi</button>
                 </a>
 
             </div>
         </div>
     </div>
 </section>
+
 
   <!-- end book section -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

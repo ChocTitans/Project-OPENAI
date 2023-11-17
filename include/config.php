@@ -1,6 +1,6 @@
 <?php
 
-$servername = "app-db";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "gpt";
