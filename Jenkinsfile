@@ -11,7 +11,7 @@ podTemplate(containers: [
             KUBE_NAMESPACE = 'devops-tools'
 
         }
-       /* stage ('Installing Requirements')
+        stage ('Installing Requirements')
         {
             container('docker')
             {
@@ -21,7 +21,7 @@ podTemplate(containers: [
                     sh 'until docker info; do sleep 1; done'
                 }
             }
-        }*/
+        }
         stage ('Clone')
         {
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/Project-OPENAI'
