@@ -135,17 +135,54 @@ function sendMessageToChatGPT($user_input) {
     $conn = include './include/config.php'; 
     $system_message = getSystemMessageFromDatabase($conn);
 
+
+    // content
+    $querySystemMessage = "SELECT message FROM system_messages WHERE id = 1"; // Assuming 1 is the ID of the system message
+    $resultSystemMessage = mysqli_query($conn, $querySystemMessage);
+    
+    if ($resultSystemMessage && mysqli_num_rows($resultSystemMessage) > 0) {
+        $row = mysqli_fetch_assoc($resultSystemMessage);
+        $content = $row['message'];
+    } else {
+      $insertQueryContent = "INSERT INTO system_messages (id, message) VALUES (1, 'Je suis AI-med et non GPT')";
+      $insertResultContent = mysqli_query($conn, $insertQueryContent);
+  
+      if ($insertResultContent) {
+          $content = "Je suis AI-med et non GPT";
+      }    
+    }
+    
+
+    // fin content
+
+    // model
+    $querymodel = "SELECT model_name FROM models WHERE id = 1"; // Assuming 1 is the ID of the model
+    $resultmodel = mysqli_query($conn, $querymodel);
+
+    if ($resultmodel && mysqli_num_rows($resultmodel) > 0) {
+        $row = mysqli_fetch_assoc($resultmodel);
+        $model = $row['model_name'];
+      } else {
+        // Si aucun modèle n'est trouvé pour l'ID 1, insérez gpt-3.5-turbo comme modèle par défaut
+        $insertQuery = "INSERT INTO models (id, model_name) VALUES (1, 'gpt-3.5-turbo')";
+        $insertResult = mysqli_query($conn, $insertQuery);
+    
+        if ($insertResult) {
+            $model = "gpt-3.5-turbo";
+        }
+      }    
+    // fin model
     $api_key = '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';
     $api_url = 'https://api.openai.com/v1/chat/completions';
 
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
     $post_fields = array(
-        "model" => "gpt-3.5-turbo",
+        "model" => $model,
         "messages" => array(
             array(
                 "role" => "system",
-                "content" => "Bonjour, je suis AI-MED, votre assistant médical. Je suis là pour vous aider à trouver des informations sur les maladies." 
+                "content" => $content
             ),
             array(
                 "role" => "user",

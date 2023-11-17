@@ -1,3 +1,4 @@
+
 <?php include '../include/config.php';
 
 $query = "SELECT * FROM users WHERE role = 'user'";

@@ -7,7 +7,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: ./setup.php");
     exit;
 }
-
+$error = false;
 // Handle login
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $email = $_POST['email'];
@@ -34,11 +34,15 @@ if ($stmt->num_rows > 0) {
         header("Location: setup.php");
     } 
     }
+    else {
+      $error = true;
+  }
 
 
 
     $stmt->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -133,6 +137,9 @@ if ($stmt->num_rows > 0) {
                             <input type="password" class="form-control" id="inputPassword" name="password" placeholder="">
                         </div>
                     </div>
+                    <?php if ($error) { 
+									    echo '<p class="badge bg-danger">L\'email ou mot de passe est incorrect !!</p>';
+								      }?>
                     <div class="btn-box">
                         <button type="submit" name="login" class="btn">Envoyer</button>
                     </div>
@@ -140,7 +147,6 @@ if ($stmt->num_rows > 0) {
                 <a href="register.php">
                     <button type="button" class="btn" style="color: white;">Tu n'as pas de compte ? Enregistre toi</button>
                 </a>
-
             </div>
         </div>
     </div>

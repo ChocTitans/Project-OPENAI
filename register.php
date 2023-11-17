@@ -11,7 +11,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
 $registrationSuccess = false;
 $phoneormailexist = false;
-
+$error = false;
 // Handle registration
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     // Retrieve form inputs
@@ -52,11 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
             $registrationSuccess = true; // Set the variable to true
             header("Location: ./login.php");
         } else {
-            echo "Error: " . $stmt->error;
+            $error = true;
         }
 
         $stmt->close();
     }
+    
 }
 ?>
 
@@ -173,20 +174,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                             </div>
                         </div>
                     </div>
+                    <?php
+                    // Display success message if registration succeeded
+                    if ($registrationSuccess) {
+                        echo '<p class="badge bg-succes">Succces ! Vous êtes maintenant enregistré !</p>';
+                        usleep(500000); // 500000 microsecondes = 0.5 seconde
+
+                    }
+                    // Display error message if email or phone already exists
+                    if ($phoneormailexist) {
+                        echo '<p class="badge bg-danger">Erreur ! L\'email ou le numéro de téléphone existe déjà !</p>';
+                    }
+                    ?>
                     <div class="btn-box">
                         <button type="submit" name="register" class="btn">S'enregistrer</button>
                     </div>
                     
-                    <?php
-                    // Display success message if registration succeeded
-                    if ($registrationSuccess) {
-                        echo '<p class="success-message">Succces ! Vous êtes maintenant enregistré !</p>';
-                    }
-                    // Display error message if email or phone already exists
-                    if ($phoneormailexist) {
-                        echo '<p class="error-message">Erreur ! L\'email ou le numéro de téléphone existe déjà !</p>';
-                    }
-                    ?>
                 </form>
                 <a href="login.php">
                     <button type="button" class="btn" style="color: white;">Tu as un compte ? Connecte-toi</button>
