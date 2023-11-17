@@ -6,6 +6,7 @@ if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
 }
 
 ?>
+
 <head>
     <title>AI-MED</title>
     
