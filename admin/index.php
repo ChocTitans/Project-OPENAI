@@ -1,4 +1,3 @@
-
 <?php 
 
 if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
