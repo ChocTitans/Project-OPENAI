@@ -40,41 +40,6 @@ if ($stmt->num_rows > 0) {
 
     $stmt->close();
 }
-
-$registrationSuccess = false;
-
-// Handle registration
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
-    // Retrieve form inputs
-    $email = $_POST['email'];
-    $firstName = $_POST['first_name'];
-    $lastName = $_POST['last_name'];
-    $phone = $_POST['phone'];
-    $Password = $_POST['password'];
-    $dateOfBirth = $_POST['date_of_birth'];
-
-    // Default role
-    $role = 'user';
-
-    // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO users (email, first_name, last_name, phone, password, date_of_birth, role) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $hashedPassword = password_hash($Password, PASSWORD_DEFAULT); // Hash the password
-
-    $stmt->bind_param("sssssss", $email, $firstName, $lastName, $phone, $hashedPassword, $dateOfBirth, $role);
-
-    if ($stmt->execute()) {
-        // Registration succeeded
-        // Start session
-        // Set session role
-        $_SESSION['user_id'] = $stmt->insert_id; // Store user ID in the session
-        $_SESSION['role'] = $role;
-        $registrationSuccess = true; // Set the variable to true
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
 ?>
 
 <!DOCTYPE html>
