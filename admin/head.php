@@ -1,4 +1,4 @@
-<?php session_start();
+<?php 
 
 if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
     header('Location: ../login.php');

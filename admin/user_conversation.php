@@ -1,6 +1,11 @@
 
 
 <?php
+
+if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
+    header('Location: ../login.php');
+    exit();
+}
 // Assuming you have a connection to your database established
 include '../include/config.php';
 if(isset($_GET['user_id'])) {

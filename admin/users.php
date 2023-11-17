@@ -1,5 +1,13 @@
 
-<?php include '../include/config.php';
+<?php
+
+if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
+    header('Location: ../login.php');
+    exit();
+}
+
+
+include '../include/config.php';
 
 $query = "SELECT * FROM users WHERE role = 'user'";
 $result = mysqli_query($conn, $query);
