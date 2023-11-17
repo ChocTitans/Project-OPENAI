@@ -1,22 +1,22 @@
-
-
-<?php
+<?php 
 
 if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
     header('Location: ../login.php');
     exit();
 }
-// Assuming you have a connection to your database established
+
+?>
+
+<?php 
+
 include '../include/config.php';
 if(isset($_GET['user_id'])) {
     $userId = $_GET['user_id'];
     
-    // Fetch user details
     $userQuery = "SELECT * FROM users WHERE id = $userId";
     $userResult = mysqli_query($conn, $userQuery);
     $user = mysqli_fetch_assoc($userResult);
     
-    // Fetch conversations/messages for the user
     $conversationQuery = "SELECT * FROM conversations WHERE user_id = $userId";
     $conversationResult = mysqli_query($conn, $conversationQuery);
 
