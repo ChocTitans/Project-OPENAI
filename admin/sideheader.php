@@ -26,7 +26,7 @@ if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
 			            <div class="app-utility-item app-user-dropdown dropdown">
 				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="assets/images/user.png" alt="user profile"></a>
 				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-								<li><a class="dropdown-item" href="../setup.php"></a>Retour à l'IA</li>
+								<li><a class="dropdown-item" href="../setup.php">Retour à l'IA</a></li>
 								<li><a class="dropdown-item" href="#"></a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="../logout.php">Log Out</a></li>
