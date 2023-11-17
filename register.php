@@ -10,39 +10,53 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
 
 $registrationSuccess = false;
+$phoneormailexist = false;
 
 // Handle registration
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     // Retrieve form inputs
     $email = $_POST['email'];
-    $firstName = $_POST['first_name'];
-    $lastName = $_POST['last_name'];
     $phone = $_POST['phone'];
-    $Password = $_POST['password'];
-    $dateOfBirth = $_POST['date_of_birth'];
 
-    // Default role
-    $role = 'user';
+    // Check if email or phone already exists
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ? OR phone = ?");
+    $stmt->bind_param("ss", $email, $phone);
+    $stmt->execute();
+    $stmt->store_result();
 
-    // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO users (email, first_name, last_name, phone, password, date_of_birth, role) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $hashedPassword = password_hash($Password, PASSWORD_DEFAULT); // Hash the password
-
-    $stmt->bind_param("sssssss", $email, $firstName, $lastName, $phone, $hashedPassword, $dateOfBirth, $role);
-
-    if ($stmt->execute()) {
-        // Registration succeeded
-        // Start session
-        // Set session role
-        $_SESSION['user_id'] = $stmt->insert_id; // Store user ID in the session
-        $_SESSION['role'] = $role;
-        $registrationSuccess = true; // Set the variable to true
-        header("Location: ./login.php");
+    if ($stmt->num_rows > 0) {
+        // Email or phone already exists, show an error message
+        $phoneormailexist = true;
     } else {
-        echo "Error: " . $stmt->error;
-    }
+        // Continue with the registration process
+        $firstName = $_POST['first_name'];
+        $lastName = $_POST['last_name'];
+        $Password = $_POST['password'];
+        $dateOfBirth = $_POST['date_of_birth'];
 
-    $stmt->close();
+        // Default role
+        $role = 'user';
+
+        // Use prepared statement to prevent SQL injection
+        $stmt = $conn->prepare("INSERT INTO users (email, first_name, last_name, phone, password, date_of_birth, role) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $hashedPassword = password_hash($Password, PASSWORD_DEFAULT); // Hash the password
+
+        $stmt->bind_param("sssssss", $email, $firstName, $lastName, $phone, $hashedPassword, $dateOfBirth, $role);
+
+        if ($stmt->execute()) {
+            // Registration succeeded
+            // Start session
+            // Set session role
+            $_SESSION['user_id'] = $stmt->insert_id; // Store user ID in the session
+            $_SESSION['role'] = $role;
+            $registrationSuccess = true; // Set the variable to true
+            header("Location: ./login.php");
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
 }
 ?>
 
@@ -167,6 +181,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                     // Display success message if registration succeeded
                     if ($registrationSuccess) {
                         echo '<p class="success-message">Succces ! Vous êtes maintenant enregistré !</p>';
+                    }
+                    // Display error message if email or phone already exists
+                    if ($phoneormailexist) {
+                        echo '<p class="error-message">Erreur ! L\'email ou le numéro de téléphone existe déjà !</p>';
                     }
                     ?>
                 </form>

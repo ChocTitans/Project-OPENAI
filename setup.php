@@ -113,9 +113,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <form id="chat-form" method="post" action="">
                     <div class="input-group">
-                        <input type="text" id="user_message" name="user_message" class="form-control" placeholder="Type your message..." required>  
+                        <input type="text" id="user_message" name="user_message" class="form-control" placeholder="Votre message ..." required>  
                         <span class="input-group-btn">
-                            <button class="btn btn-info" type="submit">Send</button>
+                            <button class="btn btn-info" type="submit">Envoyer</button>
                         </span>
                     </div>
                 </form>

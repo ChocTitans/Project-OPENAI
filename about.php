@@ -1,5 +1,5 @@
 <?php
-session_save_path('/var/www/html/session_data');
+
 session_start(); ?>
 
 <!DOCTYPE html>

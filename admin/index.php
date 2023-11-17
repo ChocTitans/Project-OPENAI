@@ -1,126 +1,217 @@
-<?php
-session_start();
+<!DOCTYPE html>
+<html lang="en"> 
 
-if (!isset($_SESSION['loggedin'])) {
-    header('Location: login.php');
-    exit();
+<?php include './head.php';
+include '../include/config.php';
+
+$query = "SELECT COUNT(*) as total_messages FROM conversations";
+$result = mysqli_query($conn, $query);
+
+$queryusers = "SELECT COUNT(*) as total_users FROM users";
+$resultusers = mysqli_query($conn, $queryusers);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $totalMessages = $row['total_messages'];
+}
+
+if ($resultusers) {
+    $row = mysqli_fetch_assoc($resultusers);
+    $totalusers = $row['total_users'];
 }
 
 ?>
 
-<!DOCTYPE html>
-<html>
+<body class="app">   	
 
-<head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <link rel="shortcut icon" href="images/s4.png" type="image/x-icon">
+<?php include './sideheader.php' ?>
 
-  <title>AI-MED</title>
+    <div class="app-wrapper">
+	    
+	    <div class="app-content pt-3 p-md-3 p-lg-4">
+		    <div class="container-xl">
+			    
+			    <h1 class="app-page-title">Aperçu</h1>
+			    
+			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
+				    <div class="inner">
+					    <div class="app-card-body p-3 p-lg-4">
+						    <h3 class="mb-3">Bienvenue, Admin !</h3>
+						    <div class="row gx-5 gy-3">
+						        <div class="col-12 col-lg-9">
+							        
+							        <div>Cette section est réservée aux administrateurs. Vous pourrez y voir les messages des utilisateurs.</div>
+							    </div><!--//col-->
+							    <div class="col-12 col-lg-3">
+								    <a class="btn app-btn-primary" href="./users.php"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+  <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
+  <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z"/>
+	</svg>Utilisateurs</a>
+							    </div><!--//col-->
+						    </div><!--//row-->
+						    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					    </div><!--//app-card-body-->
+					    
+				    </div><!--//inner-->
+			    </div><!--//app-card-->
+				    
+			    <div class="row g-4 mb-4">
+				    <div class="col-6 col-lg-3">
+					    <div class="app-card app-card-stat shadow-sm h-100">
+						    <div class="app-card-body p-3 p-lg-4">
+							    <h4 class="stats-type mb-1">Total Des Messages</h4>
+								<div class="stats-figure"><?php echo $totalMessages; ?></div>
+							    <div class="stats-meta text-success">
+								    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+	</svg> 20%</div>
+						    </div><!--//app-card-body-->
+						    <a class="app-card-link-mask" href="#"></a>
+					    </div><!--//app-card-->
+				    </div><!--//col-->
+				    
+				    <div class="col-6 col-lg-3">
+					    <div class="app-card app-card-stat shadow-sm h-100">
+						    <div class="app-card-body p-3 p-lg-4">
+							    <h4 class="stats-type mb-1">Total Des Utilisateurs</h4>
+								<div class="stats-figure"><?php echo $totalusers; ?></div>
+							    <div class="stats-meta text-success">
+								    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+	</svg> 5% </div>
+						    </div><!--//app-card-body-->
+						    <a class="app-card-link-mask" href="#"></a>
+					    </div><!--//app-card-->
+				    </div><!--//col-->
+				    <div class="col-6 col-lg-3">
+					    <div class="app-card app-card-stat shadow-sm h-100">
+						    <div class="app-card-body p-3 p-lg-4">
+							    <h4 class="stats-type mb-1">Modele utilisé</h4>
+							    <div class="stats-figure">GPT-3</div>
+							    <div class="stats-meta">
+								    Open</div>
+						    </div><!--//app-card-body-->
+						    <a class="app-card-link-mask" href="#"></a>
+					    </div><!--//app-card-->
+				    </div><!--//col-->
 
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+			    </div><!--//row-->
+			    
+			    </div><!--//row-->
+			    <div class="row g-4 mb-4">
+				    <div class="col-12 col-lg-6">
+			        </div><!--//col-->
+			        <div class="col-12 col-lg-6">
+				        <div class="app-card app-card-stats-table h-100 shadow-sm">
 
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,600,700&display=swap" rel="stylesheet" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- datepicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
-  <!-- Custom styles for this template -->
-  <link href="../css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="../css/responsive.css" rel="stylesheet" />
-</head>
+				        </div><!--//app-card-->
+			        </div><!--//col-->
+			    </div><!--//row-->
+			    <div class="row g-4 mb-4">
+				    <div class="col-12 col-lg-4">
+					    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+						    <div class="app-card-header p-3 border-bottom-0">
+						        <div class="row align-items-center gx-3">
+							        <div class="col-auto">
+								        <div class="app-icon-holder">
+										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-receipt" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"/>
+  <path fill-rule="evenodd" d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+</svg>
+									    </div><!--//icon-holder-->
+						                
+							        </div><!--//col-->
+							        <div class="col-auto">
+								        <h4 class="app-card-title">Invoices</h4>
+							        </div><!--//col-->
+						        </div><!--//row-->
+						    </div><!--//app-card-header-->
+						    <div class="app-card-body px-4">
+							    
+							    <div class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquet eros vel diam semper mollis.</div>
+						    </div><!--//app-card-body-->
+						    <div class="app-card-footer p-4 mt-auto">
+							   <a class="btn app-btn-secondary" href="#">Create New</a>
+						    </div><!--//app-card-footer-->
+						</div><!--//app-card-->
+				    </div><!--//col-->
+				    <div class="col-12 col-lg-4">
+					    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+						    <div class="app-card-header p-3 border-bottom-0">
+						        <div class="row align-items-center gx-3">
+							        <div class="col-auto">
+								        <div class="app-icon-holder">
+										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-code-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+  <path fill-rule="evenodd" d="M6.854 4.646a.5.5 0 0 1 0 .708L4.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L11.793 8l-2.647 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708 0z"/>
+</svg>
+									    </div><!--//icon-holder-->
+						                
+							        </div><!--//col-->
+							        <div class="col-auto">
+								        <h4 class="app-card-title">Apps</h4>
+							        </div><!--//col-->
+						        </div><!--//row-->
+						    </div><!--//app-card-header-->
+						    <div class="app-card-body px-4">
+							    
+							    <div class="intro">Pellentesque varius, elit vel volutpat sollicitudin, lacus quam efficitur augue</div>
+						    </div><!--//app-card-body-->
+						    <div class="app-card-footer p-4 mt-auto">
+							   <a class="btn app-btn-secondary" href="#">Create New</a>
+						    </div><!--//app-card-footer-->
+						</div><!--//app-card-->
+				    </div><!--//col-->
+				    <div class="col-12 col-lg-4">
+					    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+						    <div class="app-card-header p-3 border-bottom-0">
+						        <div class="row align-items-center gx-3">
+							        <div class="col-auto">
+								        <div class="app-icon-holder">
+										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tools" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M0 1l1-1 3.081 2.2a1 1 0 0 1 .419.815v.07a1 1 0 0 0 .293.708L10.5 9.5l.914-.305a1 1 0 0 1 1.023.242l3.356 3.356a1 1 0 0 1 0 1.414l-1.586 1.586a1 1 0 0 1-1.414 0l-3.356-3.356a1 1 0 0 1-.242-1.023L9.5 10.5 3.793 4.793a1 1 0 0 0-.707-.293h-.071a1 1 0 0 1-.814-.419L0 1zm11.354 9.646a.5.5 0 0 0-.708.708l3 3a.5.5 0 0 0 .708-.708l-3-3z"/>
+  <path fill-rule="evenodd" d="M15.898 2.223a3.003 3.003 0 0 1-3.679 3.674L5.878 12.15a3 3 0 1 1-2.027-2.027l6.252-6.341A3 3 0 0 1 13.778.1l-2.142 2.142L12 4l1.757.364 2.141-2.141zm-13.37 9.019L3.001 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
+</svg>
+									    </div><!--//icon-holder-->
+						                
+							        </div><!--//col-->
+							        <div class="col-auto">
+								        <h4 class="app-card-title">Tools</h4>
+							        </div><!--//col-->
+						        </div><!--//row-->
+						    </div><!--//app-card-header-->
+						    <div class="app-card-body px-4">
+							    
+							    <div class="intro">Sed maximus, libero ac pharetra elementum, turpis nisi molestie neque, et tincidunt velit turpis non enim.</div>
+						    </div><!--//app-card-body-->
+						    <div class="app-card-footer p-4 mt-auto">
+							   <a class="btn app-btn-secondary" href="#">Create New</a>
+						    </div><!--//app-card-footer-->
+						</div><!--//app-card-->
+				    </div><!--//col-->
+			    </div><!--//row-->
+			    
+		    </div><!--//container-fluid-->
+	    </div><!--//app-content-->
+	    
+		<?php include './footer.php' ?>
 
-<body class="sub_page">
-  <div class="hero_area">
-    <!-- header section strats -->
-    <header class="header_section">
-      <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.php">
-            <h3>
-              AI-MED
-            </h3>
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+	    
+    </div><!--//app-wrapper-->    					
 
-          <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
-            <ul class="navbar-nav  ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="../index.php">Accueil <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="../about.php"> A propos</a>
-              </li>
-            <?php if (isset($_SESSION['loggedin'])) { ?>
-              <li class="nav-item active">
-                <a class="nav-link" href="../setup.php">Bienvenue, <?php echo htmlspecialchars($_SESSION['last_name'] ); ?></a>
-              </li>
-            </ul>
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {?>
-              <form class="form-inline" action="" method="post">
-              <button class="btn nav_search-btn" type="submit">
-                  <i class="fa fa-cogs" aria-hidden="true"></i>
-              </button>
-            </form>
-            <?php } ?>
-            
-            <form class="form-inline" action="../logout.php" method="post">
-              <button class="btn nav_search-btn" type="submit">
-                  <i class="fa fa-sign-out" aria-hidden="true"></i>
-              </button>
-            </form>
-            
-            <?php  } else{ ?>
-            <form class="form-inline" action="login.php" method="post">
-              <button class="btn nav_search-btn" type="submit">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-              </button>
-            </form>
+ 
+    <!-- Javascript -->          
+    <script src="assets/plugins/popper.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>  
 
-              <?php }?>
-          </div>
-        </nav>
-      </div>
-    </header>
-    <!-- end header section -->
-  </div>
-
-  <!-- book section -->
-
-<section class="book_section layout_padding" id="loginSection">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-            <form method="post" action="">
-                <label for="user_message">Your message:</label>
-                <input type="text" id="user_message" name="user_message" required>
-                <button type="submit">Send</button>
-            </form>
-
-            </div>
-        </div>
-    </div>
-</section>
-
-  <!-- end book section -->
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-  <!-- info section -->
-<?php include '../footer.php'; ?>
-  <!-- end info section -->
+    <!-- Charts JS -->
+    <script src="assets/plugins/chart.js/chart.min.js"></script> 
+    <script src="assets/js/index-charts.js"></script> 
+    
+    <!-- Page Specific JS -->
+    <script src="assets/js/app.js"></script> 
 
 </body>
+</html> 
 
-</html>
