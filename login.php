@@ -12,7 +12,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $lastName = $_POST['last_name'];
 
     // Use prepared statement to prevent SQL injection
     $stmt = $conn->prepare("SELECT id, password, role, last_name FROM users WHERE email = ?");

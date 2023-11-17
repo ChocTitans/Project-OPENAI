@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
         $_SESSION['user_id'] = $stmt->insert_id; // Store user ID in the session
         $_SESSION['role'] = $role;
         $registrationSuccess = true; // Set the variable to true
+        header("Location: ./login.php");
     } else {
         echo "Error: " . $stmt->error;
     }
