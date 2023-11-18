@@ -129,11 +129,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 }
 ?>
-<style>
-    .custom-input {
-        width: 360px;
-    }
-</style>
 
 <body class="app">   	
 
@@ -170,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										<div class="row justify-content-between align-items-center">
 											<div class="col-auto">
 												<div class="item-data">
-												<textarea disabled id="UserMessageInput" name="updatedUserMessage" class="form-control search-input custom-input" rows="10"><?php echo $UserMessage; ?></textarea>
+												<textarea disabled id="UserMessageInput" name="updatedUserMessage" class="form-control search-input custom-input" style="min-height:200px" rows="40" cols="70"><?php echo $UserMessage; ?></textarea>
 												</div>
 											</div><!--//col-->
 											<div class="col text-end">
@@ -213,7 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										<div class="row justify-content-between align-items-center">
 											<div class="col-auto">
 											<div class="item-data">
-												<textarea disabled id="AssistantMessageInput" name="updatedAssistantMessage" class="form-control search-input custom-input" rows="10"><?php echo $assistant; ?></textarea>
+												<textarea disabled id="AssistantMessageInput" name="updatedAssistantMessage" class="form-control search-input custom-input" style="min-height:200px" rows="40" cols="70"><?php echo $assistant; ?></textarea>
 												</div>
 											</div><!--//col-->
 											<div class="col text-end">
@@ -307,7 +302,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										<div class="row justify-content-between align-items-center">
 											<div class="col-auto">
 												<div class="item-data">
-												<textarea disabled id="systemMessageInput" name="updatedSystemMessage" class="form-control search-input custom-input" rows="10"><?php echo $systemMessage; ?></textarea>
+												<textarea disabled id="systemMessageInput" name="updatedSystemMessage" class="form-control search-input custom-input" style="min-height:200px" rows="40" cols="70"><?php echo $systemMessage; ?></textarea>
 												</div>
 											</div>
 											<div class="col text-end">
