@@ -231,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										<div class="row justify-content-between align-items-center">
 											<div class="col-auto">
 												<div class="item-data">
-												<textarea id="systemMessageInput" name="updatedSystemMessage" class="form-control search-input custom-input" rows="10"><?php echo $systemMessage; ?></textarea>
+												<textarea disabled id="systemMessageInput" name="updatedSystemMessage" class="form-control search-input custom-input" rows="10"><?php echo $systemMessage; ?></textarea>
 												</div>
 											</div>
 											<div class="col text-end">
