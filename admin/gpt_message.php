@@ -15,6 +15,7 @@ if (!isset($_SESSION['loggedin']) || ($_SESSION['role'] !== 'admin')) {
 include '../include/config.php';
 $success = false;
 $sucessmsg = false;
+$successusermsg = false;
 if (isset($_POST['change_model'])) {
     $selectedModel = $_POST['selected_model'];
 
@@ -44,6 +45,15 @@ if ($resultSystemMessage && mysqli_num_rows($resultSystemMessage) > 0) {
     $systemMessage = $rowSystemMessage['message'];
 }
 
+$queryUserMessage = "SELECT message FROM user_content LIMIT 1"; // Assuming only one system message exists
+$resultUserMessage = mysqli_query($conn, $queryUserMessage);
+
+if ($resultUserMessage && mysqli_num_rows($resultUserMessage) > 0) {
+    $rowUserMessage = mysqli_fetch_assoc($resultUserMessage);
+    $UserMessage = $rowUserMessage['message'];
+}
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['updatedSystemMessage'])) {
@@ -66,6 +76,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		}
 		
     }
+    if (isset($_POST['updatedUserMessage'])) {
+		$updatedUserMessage = $_POST['updatedUserMessage'];
+		$updatedUserMessage = mysqli_real_escape_string($conn, $updatedUserMessage);
+
+		$query = "UPDATE user_content SET message = '$updatedUserMessage' WHERE id = 1"; 
+		$result = mysqli_query($conn, $query);
+
+		
+		if ($result) {
+			$successusermsg = true;
+			// Retrieve the updated value from the database
+			$queryUpdatedUserMessage = "SELECT message FROM user_content WHERE id = 1"; // Modify this query accordingly
+			$resultUpdatedUserMessage = mysqli_query($conn, $queryUpdatedUserMessage);
+		
+			if ($resultUpdatedUserMessage && mysqli_num_rows($resultUpdatedUserMessage) > 0) {
+				$rowUpdatedUserMessage = mysqli_fetch_assoc($resultUpdatedUserMessage);
+				$UserMessage = $rowUpdatedUserMessage['message'];
+			}
+		}
+	}
 }
 ?>
 <style>
@@ -86,8 +116,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			    
 			    <h1 class="app-page-title">GPT Models & Messages</h1>
                 <div class="row gy-4">
-	                
-
+				<div class="col-12 col-lg-6">
+		                <div class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+						    <div class="app-card-header p-3 border-bottom-0">
+						        <div class="row align-items-center gx-3">
+							        <div class="col-auto">
+								        <div class="app-icon-holder">
+										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+										</svg>
+									    </div><!--//icon-holder-->
+						                
+							        </div><!--//col-->
+							        <div class="col-auto">
+								        <h4 class="app-card-title">User Message</h4>
+							        </div><!--//col-->
+						        </div><!--//row-->
+						    </div><!--//app-card-header-->
+						    <div class="app-card-body px-4 w-100">
+								<form id="updateSystemMessageForm" action="" method="post">
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center">
+											<div class="col-auto">
+												<div class="item-data">
+													<input type="text" disabled id="UserMessageInput" value="<?php echo $UserMessage; ?>" name="updatedUserMessage" class="form-control search-input custom-input">
+												</div>
+											</div><!--//col-->
+											<div class="col text-end">
+												<a id="editButton" class="btn-sm app-btn-secondary" href="#" onclick="enableEditUser()">Modifier</a>
+											</div><!--//col-->
+										</div><!--//row-->
+									</div><!--//item-->
+										<?php if ($successusermsg) { 
+											echo '<p class="badge bg-success">Vous avez changé le message avec succès !</p>';
+										}?>
+									</div><!--//app-card-body-->
+									<div class="app-card-footer p-4 mt-auto">
+										<button type="submit" class="btn app-btn-secondary">Mise à jour</button>
+									</div><!--//app-card-footer-->
+								</form>	
+							</div><!--//app-card-->
+	                </div><!--//col-->
 	                <div class="col-12 col-lg-6">
 		                <div class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
 						    <div class="app-card-header p-3 border-bottom-0">
@@ -157,35 +226,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						        </div><!--//row-->
 						    </div><!--//app-card-header-->
 						    <div class="app-card-body px-4 w-100">
-							<form id="updateSystemMessageForm" action="" method="post">
-								<div class="item border-bottom py-3">
-									<div class="row justify-content-between align-items-center">
-										<div class="col-auto">
-											<div class="item-data">
-												<input type="text" disabled id="systemMessageInput" value="<?php echo $systemMessage; ?>" name="updatedSystemMessage" class="form-control search-input custom-input">
+								<form id="updateSystemMessageForm" action="" method="post">
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center">
+											<div class="col-auto">
+												<div class="item-data">
+													<input type="text" disabled id="systemMessageInput" value="<?php echo $systemMessage; ?>" name="updatedSystemMessage" class="form-control search-input custom-input">
+												</div>
 											</div>
-										</div>
-										<div class="col text-end">
-											<a id="editButton" class="btn-sm app-btn-secondary" href="#" onclick="enableEdit()">Modifier</a>
-										</div><!--//col-->
-									</div><!--//row-->
-								</div><!--//item-->
-								<?php if ($sucessmsg) { 
-									echo '<p class="badge bg-success">Vous avez changé le message avec succès !</p>';
-								}?>
-							</div><!--//app-card-body-->
-							<div class="app-card-footer p-4 mt-auto">
-								<button type="submit" class="btn app-btn-secondary">Mise à jour</button>
-							</div><!--//app-card-footer-->
-							</form>	
-							
-							
-							
-							
-						</div><!--//app-card-footer-->
-						   
-						</div><!--//app-card-->
-						
+											<div class="col text-end">
+												<a id="editButton" class="btn-sm app-btn-secondary" href="#" onclick="enableEdit()">Modifier</a>
+											</div><!--//col-->
+										</div><!--//row-->
+									</div><!--//item-->
+									<?php if ($sucessmsg) { 
+										echo '<p class="badge bg-success">Vous avez changé le message avec succès !</p>';
+									}?>
+								</div><!--//app-card-body-->
+								<div class="app-card-footer p-4 mt-auto">
+									<button type="submit" class="btn app-btn-secondary">Mise à jour</button>
+								</div><!--//app-card-footer-->
+								</form>	
+								</div><!--//app-card-footer-->	
+							</div><!--//app-card-->
 	                </div>
 					
                 </div><!--//row-->
@@ -210,6 +273,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         systemMessageInput.focus();
 
         updatedSystemMessage.value = systemMessageInput.value;
+    }
+	function enableEditUser() {
+        var UserMessageInput = document.getElementById('UserMessageInput');
+        var updatedUserMessage = document.getElementById('updatedUserMessage');
+
+        UserMessageInput.removeAttribute('disabled');
+        UserMessageInput.focus();
+
+        updatedUserMessage.value = UserMessageInput.value;
     }
 </script>
 

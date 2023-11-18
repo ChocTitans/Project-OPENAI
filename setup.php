@@ -5,14 +5,33 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: login.php');
     exit();
 }
-
+include './include/config.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $user_input = $_POST["user_message"];
-  echo sendMessageToChatGPT($user_input); // Echo the JSON response
-  exit(); // Terminate further execution
+    $user_input = $_POST["user_message"];
+
+    $querycontent = "SELECT message FROM user_content WHERE id = 1"; // Assuming 1 is the ID of the model
+    $resultcontent = mysqli_query($conn, $querycontent);
+
+    if ($resultcontent) {
+        $row = mysqli_fetch_assoc($resultcontent);
+
+        if ($row) {
+            // Log the fetched message to console
+            // Get the fetched message
+            $fetchedMessage = $row['message'];
+
+            // Append the fetched message and voltarene_list to the user input
+            $annotated_input = $user_input . "\n" . $fetchedMessage;
+
+            // Do further processing with $annotated_input
+            echo sendMessageToChatGPT($annotated_input); // Echo the JSON response
+            exit(); // Terminate further execution
+        } 
+    } 
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -132,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php
 function sendMessageToChatGPT($user_input) {
-    $conn = include './include/config.php'; 
+    $conn = include './include/config.php';
     $system_message = getSystemMessageFromDatabase($conn);
 
 
