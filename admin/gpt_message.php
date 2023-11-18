@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										<div class="row justify-content-between align-items-center">
 											<div class="col-auto">
 												<div class="item-data">
-													<input type="text" disabled id="UserMessageInput" value="<?php echo $UserMessage; ?>" name="updatedUserMessage" class="form-control search-input custom-input">
+												<textarea disabled id="UserMessageInput" name="updatedUserMessage" class="form-control search-input custom-input" rows="10"><?php echo $UserMessage; ?></textarea>
 												</div>
 											</div><!--//col-->
 											<div class="col text-end">
@@ -231,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										<div class="row justify-content-between align-items-center">
 											<div class="col-auto">
 												<div class="item-data">
-													<input type="text" disabled id="systemMessageInput" value="<?php echo $systemMessage; ?>" name="updatedSystemMessage" class="form-control search-input custom-input">
+												<textarea id="systemMessageInput" name="updatedSystemMessage" class="form-control search-input custom-input" rows="10"><?php echo $systemMessage; ?></textarea>
 												</div>
 											</div>
 											<div class="col text-end">
