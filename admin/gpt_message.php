@@ -16,6 +16,7 @@ include '../include/config.php';
 $success = false;
 $sucessmsg = false;
 $successusermsg = false;
+$successassistant = false;
 if (isset($_POST['change_model'])) {
     $selectedModel = $_POST['selected_model'];
 
@@ -53,6 +54,13 @@ if ($resultUserMessage && mysqli_num_rows($resultUserMessage) > 0) {
     $UserMessage = $rowUserMessage['message'];
 }
 
+$queryassistant = "SELECT message FROM assistant_messages WHERE id = 1"; // Assuming only one system message exists
+$resultassistant = mysqli_query($conn, $queryassistant);
+
+if ($resultassistant && mysqli_num_rows($resultassistant) > 0) {
+	$rowassistant = mysqli_fetch_assoc($resultassistant);
+	$assistant = $rowassistant['message'];
+}
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -96,6 +104,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			}
 		}
 	}
+
+	if (isset($_POST['updatedAssistantMessage']))
+	{
+		$updatedAssistantMessage = $_POST['updatedAssistantMessage'];
+		$updatedAssistantMessage = mysqli_real_escape_string($conn, $updatedAssistantMessage);
+
+		$query = "UPDATE assistant_messages SET message = '$updatedAssistantMessage' WHERE id = 1"; 
+		$result = mysqli_query($conn, $query);
+
+		
+		if ($result) {
+			$successassistant = true;
+			// Retrieve the updated value from the database
+			$queryUpdatedAssistantMessage = "SELECT message FROM assistant_messages WHERE id = 1"; // Modify this query accordingly
+			$resultUpdatedAssistantMessage = mysqli_query($conn, $queryUpdatedAssistantMessage);
+		
+			if ($resultUpdatedAssistantMessage && mysqli_num_rows($resultUpdatedAssistantMessage) > 0) {
+				$rowUpdatedAssistantMessage = mysqli_fetch_assoc($resultUpdatedAssistantMessage);
+				$assistant = $rowUpdatedAssistantMessage['message'];
+			}
+		}
+	}
+
 }
 ?>
 <style>
@@ -156,7 +187,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									</div><!--//app-card-footer-->
 								</form>	
 							</div><!--//app-card-->
-	                </div><!--//col-->
+	            	</div><!--//col-->
+
+					<div class="col-12 col-lg-6">
+		                <div class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+						    <div class="app-card-header p-3 border-bottom-0">
+						        <div class="row align-items-center gx-3">
+							        <div class="col-auto">
+								        <div class="app-icon-holder">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alexa" viewBox="0 0 16 16">
+										<path d="M7.996 0A7.998 7.998 0 0 0 0 8a8 8 0 0 0 6.93 7.93v-1.613a1.06 1.06 0 0 0-.717-1.008A5.602 5.602 0 0 1 2.4 7.865 5.579 5.579 0 0 1 8.054 2.4a5.599 5.599 0 0 1 5.535 5.81l-.002.046a6.116 6.116 0 0 1-.012.192l-.005.061a4.85 4.85 0 0 1-.033.284l-.01.068c-.685 4.516-6.564 7.054-6.596 7.068A7.998 7.998 0 0 0 15.992 8 7.998 7.998 0 0 0 7.996.001Z"/>
+										</svg>
+									    </div><!--//icon-holder-->
+						                
+							        </div><!--//col-->
+							        <div class="col-auto">
+								        <h4 class="app-card-title">Assistant Message</h4>
+							        </div><!--//col-->
+						        </div><!--//row-->
+						    </div><!--//app-card-header-->
+						    <div class="app-card-body px-4 w-100">
+								<form id="updateSystemMessageForm" action="" method="post">
+
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center">
+											<div class="col-auto">
+											<div class="item-data">
+												<textarea disabled id="AssistantMessageInput" name="updatedAssistantMessage" class="form-control search-input custom-input" rows="10"><?php echo $assistant; ?></textarea>
+												</div>
+											</div><!--//col-->
+											<div class="col text-end">
+												<a id="editButton" class="btn-sm app-btn-secondary" href="#" onclick="enableEditAssistant()">Modifier</a>
+											</div><!--//col-->
+										</div><!--//row-->
+									</div><!--//item-->
+									<?php if ($successassistant) { 
+											echo '<p class="badge bg-success">Vous avez changé le message avec succès !</p>';
+									}?>
+						    </div><!--//app-card-body-->
+						    
+						    <div class="app-card-footer p-4 mt-auto">
+							<button type="submit" class="btn app-btn-secondary">Mise à jour</button>
+						    </div><!--//app-card-footer-->
+							</form>	
+
+						</div><!--//app-card-->
+	                </div>
 	                <div class="col-12 col-lg-6">
 		                <div class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
 						    <div class="app-card-header p-3 border-bottom-0">
@@ -274,7 +350,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         updatedSystemMessage.value = systemMessageInput.value;
     }
-	function enableEditUser() {
+	function enableEditUser() {AssistantMessageInput
         var UserMessageInput = document.getElementById('UserMessageInput');
         var updatedUserMessage = document.getElementById('updatedUserMessage');
 
@@ -282,6 +358,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         UserMessageInput.focus();
 
         updatedUserMessage.value = UserMessageInput.value;
+    }
+	function enableEditAssistant() {
+        var AssistantMessageInput = document.getElementById('AssistantMessageInput');
+        var updatedAssistantMessage = document.getElementById('updatedAssistantMessage');
+
+        AssistantMessageInput.removeAttribute('disabled');
+        AssistantMessageInput.focus();
+
+        updatedAssistantMessage.value = AssistantMessageInput.value;
     }
 </script>
 

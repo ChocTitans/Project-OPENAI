@@ -191,6 +191,23 @@ function sendMessageToChatGPT($user_input) {
         }
       }    
     // fin model
+
+    // assistant message
+    $queryAssistantMessage = "SELECT message FROM assistant_messages WHERE id = 1"; // Assuming 1 is the ID of the assistant message
+    $resultAssistantMessage = mysqli_query($conn, $queryAssistantMessage);
+
+    if ($resultAssistantMessage && mysqli_num_rows($resultAssistantMessage) > 0) {
+        $row = mysqli_fetch_assoc($resultAssistantMessage);
+        $assistant_message = $row['message'];
+    } else {
+      $insertQueryAssistantMessage = "INSERT INTO assistant_messages (id, message) VALUES (1, 'Je suis AI-med et non GPT')";
+      $insertResultAssistantMessage = mysqli_query($conn, $insertQueryAssistantMessage);
+  
+      if ($insertResultAssistantMessage) {
+          $assistant_message = "Je suis AI-med et non GPT";
+      }    
+    }
+    // assistant
     $api_key = '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';
     $api_url = 'https://api.openai.com/v1/chat/completions';
 
@@ -206,9 +223,13 @@ function sendMessageToChatGPT($user_input) {
             array(
                 "role" => "user",
                 "content" => $user_input
-            )
+            ),
+            array(
+              "role" => "assistant",
+              "content" => $assistant_message
+          )
         ),
-        "max_tokens" => 900,
+        "max_tokens" => 990,
         "temperature" => 0.7
     );
 
