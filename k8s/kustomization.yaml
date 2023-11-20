@@ -8,4 +8,4 @@ commonLabels:
   app: codingame
 
 resources:
-- ./base
+- ./mysql

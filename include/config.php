@@ -1,9 +1,9 @@
 <?php
 
-$servername = "app-db";
-$username = "root";
-$password = "";
-$dbname = "gpt";
+$servername = "185.98.131.160";
+$username = "heave2049889";
+$password = "Xberetax123@";
+$dbname ="heave2049889";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 

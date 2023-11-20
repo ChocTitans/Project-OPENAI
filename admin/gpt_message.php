@@ -345,7 +345,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         updatedSystemMessage.value = systemMessageInput.value;
     }
-	function enableEditUser() {AssistantMessageInput
+	function enableEditUser() {
         var UserMessageInput = document.getElementById('UserMessageInput');
         var updatedUserMessage = document.getElementById('updatedUserMessage');
 
