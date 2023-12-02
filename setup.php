@@ -326,6 +326,14 @@ function saveToDatabase($user_input, $chat_response, $user_id, $conn) {
 }
 
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("form").submit(function(){
+      $("button[type='submit']").prop("disabled", true);
+    });
+  });
+</script>
 
 
 
